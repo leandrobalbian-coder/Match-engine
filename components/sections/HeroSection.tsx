@@ -1,124 +1,140 @@
 'use client'
 import { motion } from 'framer-motion'
-import { ArrowDown, Sparkles, Zap } from 'lucide-react'
+import { Zap, Clock, DollarSign } from 'lucide-react'
 import { LiveCounter } from '@/components/demo/LiveCounter'
+import { HeroPhone } from '@/components/demo/HeroPhone'
 import { DATA } from '@/lib/data'
 
 export function HeroSection({ onStart }: { onStart: () => void }) {
   return (
-    <div className="relative w-full h-full hero-radial text-white overflow-hidden flex flex-col">
-      {/* amber dot pattern — refuerza el brand sin robar foco */}
-      <div className="absolute inset-0 hero-dots opacity-[0.08]" />
-
-      {/* drifting orbs (more subtle) */}
-      <motion.div
-        className="absolute -top-20 -left-20 w-[420px] h-[420px] rounded-full blur-[120px] bg-amber/[0.12]"
-        animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute bottom-0 right-0 w-[520px] h-[520px] rounded-full blur-[140px] bg-amber/[0.06]"
-        animate={{ x: [0, -40, 0], y: [0, -30, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-      />
-
-      {/* top bar */}
-      <div className="relative z-10 px-10 pt-8 flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-tl-md rounded-tr-md rounded-br-md rounded-bl-2xl bg-amber flex items-center justify-center text-spot-charcoal font-black">
-            2
-          </div>
-          <span className="text-2xl font-black tracking-tight">
-            spot<span className="text-amber">2</span>
-          </span>
-          <span className="ml-3 text-[10px] uppercase tracking-[0.22em] text-white/40 font-bold border-l border-white/15 pl-3">
-            AI Edition · Hackathon 2026
-          </span>
-        </div>
-        <div className="hidden md:flex items-center gap-2 text-[11px] uppercase tracking-wider text-white/50 font-bold">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-amber opacity-60 animate-ping" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-amber" />
-          </span>
-          datos en vivo · marzo 2026
-        </div>
-      </div>
-
-      {/* center stage */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="inline-flex items-center gap-2 border border-amber/30 bg-amber/10 text-amber rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider mb-4"
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          Match Engine · Broker virtual en WhatsApp
-        </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          className="text-[12px] text-white/40 font-medium tracking-wide mb-6"
-        >
-          Demo creada por{' '}
-          <span className="text-white/70 font-semibold">Leandro Balbian</span>{' '}
-          — Product Designer, Spot2
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="font-black text-amber leading-none tracking-tight"
+    <div className="relative w-full h-full overflow-hidden bg-black text-white flex">
+      {/* Background — pure black with a single warm radial behind the number */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute inset-0"
           style={{
-            fontSize: 'clamp(120px, 22vw, 260px)',
-            textShadow: '0 8px 60px rgba(255,170,0,0.18)',
+            background:
+              'radial-gradient(ellipse 60% 55% at 38% 50%, rgba(255,170,0,0.18) 0%, rgba(255,170,0,0.06) 35%, transparent 70%)',
           }}
-        >
-          <LiveCounter from={0} to={DATA.leadsSelfServiceSinAtencion} duration={2000} delay={400} inViewOnly={false} />
-        </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 0.85, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
-          className="mt-3 text-white/70 text-xl md:text-2xl font-medium max-w-2xl"
-        >
-          leads activos esperando respuesta <span className="text-amber font-bold">ahora mismo</span>
-        </motion.p>
-
-        <motion.p
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1.6 }}
-          className="mt-10 text-amber font-semibold flex items-center gap-2"
-        >
-          <Zap className="w-4 h-4" />
-          Spot2 tiene la solución. Se llama Match Engine.
-        </motion.p>
-
-        <motion.button
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1.85 }}
-          onClick={onStart}
-          className="mt-8 group inline-flex items-center gap-2 bg-amber text-spot-charcoal font-bold px-7 py-3.5 rounded-full text-[15px] hover:bg-amber-mid hover:brightness-105 transition-all shadow-sm"
-        >
-          Ver la demo
-          <span className="transition-transform group-hover:translate-x-1">→</span>
-        </motion.button>
+        />
+        {/* Soft amber dot pattern very faint */}
+        <div className="absolute inset-0 hero-dots opacity-[0.05]" />
       </div>
 
+      {/* Logo top-left */}
+      <div className="absolute top-7 left-10 z-30 flex items-center gap-2.5">
+        <span className="text-[26px] font-black tracking-tight text-white leading-none">
+          spot<span className="text-amber">2</span>
+        </span>
+      </div>
+
+      {/* Hint bottom-center */}
       <motion.div
-        animate={{ y: [0, 6, 0] }}
-        transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-        className="relative z-10 pb-6 flex flex-col items-center text-white/40 text-[10px] uppercase tracking-[0.2em] font-bold"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.4, duration: 0.6 }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 text-white/30 text-[10px] uppercase tracking-[0.22em] font-bold pointer-events-none"
       >
-        scroll · ↓ · presiona →
-        <ArrowDown className="w-3.5 h-3.5 mt-1" />
+        ← / → navegar  ·  P presentación  ·  0–7 ir a pantalla
       </motion.div>
+
+      {/* LEFT — main content */}
+      <div className="relative z-10 flex-1 min-w-0 flex flex-col justify-center px-10 lg:px-16 xl:pl-24">
+        <div className="max-w-[760px] mx-auto w-full">
+          {/* Top pill */}
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="flex justify-center mb-6"
+          >
+            <span className="inline-flex items-center gap-2 border border-amber/45 text-amber rounded-full px-5 py-2 text-[11px] uppercase tracking-[0.2em] font-bold">
+              Hackathon Spot2 AI Edition 2026
+            </span>
+          </motion.div>
+
+          {/* Massive number */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-amber font-black tracking-[-0.04em] text-center select-none"
+            style={{
+              fontSize: 'clamp(140px, 19vw, 300px)',
+              lineHeight: 0.86,
+              textShadow: '0 12px 80px rgba(255,170,0,0.22), 0 0 40px rgba(255,170,0,0.12)',
+            }}
+          >
+            <LiveCounter
+              from={0}
+              to={DATA.leadsSelfServiceSinAtencion}
+              duration={2000}
+              delay={500}
+              inViewOnly={false}
+            />
+          </motion.div>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.4 }}
+            className="mt-5 text-center text-white/85 text-[18px] md:text-[22px] font-medium leading-snug"
+          >
+            leads activos esperando respuesta{' '}
+            <span className="text-amber font-semibold">ahora mismo</span>
+          </motion.p>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 1.7 }}
+            className="mt-8 flex justify-center"
+          >
+            <button
+              onClick={onStart}
+              className="group inline-flex items-center gap-2 bg-amber text-spot-charcoal font-bold px-7 py-3 rounded-full text-[14px] hover:bg-amber-mid hover:brightness-105 transition-all"
+              style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}
+            >
+              Ver la demo
+              <span className="transition-transform group-hover:translate-x-1">→</span>
+            </button>
+          </motion.div>
+
+          {/* Stats row */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 2 }}
+            className="mt-14 flex items-center justify-center gap-7 text-white/55 text-[13px] font-medium"
+          >
+            <Stat icon={<Zap className="w-4 h-4" strokeWidth={2.2} />} label="113× más rápido" />
+            <Sep />
+            <Stat icon={<Clock className="w-4 h-4" strokeWidth={2.2} />} label="47 segundos" />
+            <Sep />
+            <Stat icon={<DollarSign className="w-4 h-4" strokeWidth={2.2} />} label="$2.7M MXN" />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* RIGHT — iPhone mockup */}
+      <div className="hidden lg:flex relative z-10 w-[400px] xl:w-[440px] shrink-0 items-center justify-center pr-6 xl:pr-12">
+        <HeroPhone />
+      </div>
     </div>
   )
+}
+
+function Stat({ icon, label }: { icon: React.ReactNode; label: string }) {
+  return (
+    <span className="inline-flex items-center gap-2 whitespace-nowrap">
+      <span className="text-white/70">{icon}</span>
+      <span>{label}</span>
+    </span>
+  )
+}
+
+function Sep() {
+  return <span className="block w-px h-4 bg-white/15" />
 }
