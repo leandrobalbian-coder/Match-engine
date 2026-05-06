@@ -7,12 +7,15 @@ import { DATA } from '@/lib/data'
 export function HeroSection({ onStart }: { onStart: () => void }) {
   return (
     <div className="relative w-full h-full hero-radial text-white overflow-hidden flex flex-col">
-      {/* faint grid */}
-      <div className="absolute inset-0 opacity-[0.07]" style={{
-        backgroundImage:
-          'linear-gradient(to right, rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.4) 1px, transparent 1px)',
-        backgroundSize: '40px 40px',
-      }} />
+      {/* amber dot pattern — refuerza el brand sin robar foco */}
+      <div
+        className="absolute inset-0 opacity-[0.10]"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle, rgba(255,170,0,0.7) 1px, transparent 1px)',
+          backgroundSize: '28px 28px',
+        }}
+      />
 
       {/* drifting orbs */}
       <motion.div
@@ -54,11 +57,22 @@ export function HeroSection({ onStart }: { onStart: () => void }) {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="inline-flex items-center gap-2 border border-amber/30 bg-amber/10 text-amber rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider mb-8"
+          className="inline-flex items-center gap-2 border border-amber/30 bg-amber/10 text-amber rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider mb-4"
         >
           <Sparkles className="w-3.5 h-3.5" />
           Match Engine · Broker virtual en WhatsApp
         </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="text-[12px] text-white/40 font-medium tracking-wide mb-6"
+        >
+          Demo creada por{' '}
+          <span className="text-white/70 font-semibold">Leandro Balbian</span>{' '}
+          — Product Designer, Spot2
+        </motion.p>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}

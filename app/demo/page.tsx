@@ -1,7 +1,7 @@
 'use client'
 import { useCallback, useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Sidebar } from '@/components/layout/Sidebar'
+import { Sidebar, type SidebarView } from '@/components/layout/Sidebar'
 import { ProgressHeader } from '@/components/layout/ProgressHeader'
 import { NavDots } from '@/components/layout/NavDots'
 import { HeroSection } from '@/components/sections/HeroSection'
@@ -12,6 +12,11 @@ import { FichaSection } from '@/components/sections/FichaSection'
 import { WhatsAppSection } from '@/components/sections/WhatsAppSection'
 import { ConfirmSection } from '@/components/sections/ConfirmSection'
 import { ImpactSection } from '@/components/sections/ImpactSection'
+import { DashboardView } from '@/app/demo/views/DashboardView'
+import { LeadsView } from '@/app/demo/views/LeadsView'
+import { EspaciosView } from '@/app/demo/views/EspaciosView'
+import { BrokersView } from '@/app/demo/views/BrokersView'
+import { DocumentacionView } from '@/app/demo/views/DocumentacionView'
 import { SCREENS } from '@/lib/data'
 import { screenVariants } from '@/lib/animations'
 
@@ -20,11 +25,22 @@ const TOTAL = SCREENS.length
 export default function DemoPage() {
   const [current, setCurrent] = useState(0)
   const [presentation, setPresentation] = useState(false)
+  const [sidebarView, setSidebarView] = useState<SidebarView>(null)
 
-  const next = useCallback(() => setCurrent((c) => Math.min(TOTAL - 1, c + 1)), [])
-  const prev = useCallback(() => setCurrent((c) => Math.max(0, c - 1)), [])
-  const goto = useCallback((i: number) => setCurrent(Math.max(0, Math.min(TOTAL - 1, i))), [])
+  const next = useCallback(() => {
+    setSidebarView(null)
+    setCurrent((c) => Math.min(TOTAL - 1, c + 1))
+  }, [])
+  const prev = useCallback(() => {
+    setSidebarView(null)
+    setCurrent((c) => Math.max(0, c - 1))
+  }, [])
+  const goto = useCallback((i: number) => {
+    setSidebarView(null)
+    setCurrent(Math.max(0, Math.min(TOTAL - 1, i)))
+  }, [])
   const togglePres = useCallback(() => setPresentation((p) => !p), [])
+  const backToFlow = useCallback(() => setSidebarView(null), [])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -43,20 +59,20 @@ export default function DemoPage() {
         e.preventDefault()
         goto(0)
       } else if (e.key === 'Escape') {
-        if (presentation) setPresentation(false)
+        if (sidebarView) setSidebarView(null)
+        else if (presentation) setPresentation(false)
       } else if (/^[0-7]$/.test(e.key)) {
         goto(parseInt(e.key, 10))
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [next, prev, togglePres, goto, presentation])
+  }, [next, prev, togglePres, goto, presentation, sidebarView])
 
-  // Hero is full-bleed, others have sidebar/header
-  const isHero = current === 0
+  const isHero = current === 0 && sidebarView === null
   const showShell = !isHero && !presentation
 
-  const sectionEl = (() => {
+  const flowEl = (() => {
     switch (current) {
       case 0: return <HeroSection onStart={next} />
       case 1: return <ProblemSection onActivate={next} />
@@ -70,9 +86,29 @@ export default function DemoPage() {
     }
   })()
 
+  const viewEl = (() => {
+    switch (sidebarView) {
+      case 'dashboard':     return <DashboardView onBack={backToFlow} onJumpToFlow={goto} />
+      case 'leads':         return <LeadsView onBack={backToFlow} onJumpToFlow={goto} />
+      case 'espacios':      return <EspaciosView onBack={backToFlow} onJumpToFlow={goto} />
+      case 'brokers':       return <BrokersView onBack={backToFlow} onJumpToFlow={goto} />
+      case 'documentacion': return <DocumentacionView onBack={backToFlow} onJumpToFlow={goto} />
+      default: return null
+    }
+  })()
+
+  const stageKey = sidebarView ? `view:${sidebarView}` : `screen:${current}`
+
   return (
     <div className="fixed inset-0 bg-spot-bg flex">
-      {showShell && <Sidebar current={current} onSelect={goto} />}
+      {showShell && (
+        <Sidebar
+          current={current}
+          onSelect={goto}
+          onViewSelect={setSidebarView}
+          activeView={sidebarView}
+        />
+      )}
 
       <div className="flex-1 flex flex-col min-w-0">
         {showShell && (
@@ -82,20 +118,22 @@ export default function DemoPage() {
             onNext={next}
             presentation={presentation}
             togglePresentation={togglePres}
+            sidebarViewLabel={sidebarView ? prettyView(sidebarView) : null}
+            onClearView={backToFlow}
           />
         )}
 
         <main className="flex-1 relative overflow-hidden">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
-              key={current}
+              key={stageKey}
               variants={screenVariants}
               initial="enter"
               animate="center"
               exit="exit"
               className="absolute inset-0"
             >
-              {sectionEl}
+              {sidebarView ? viewEl : flowEl}
             </motion.div>
           </AnimatePresence>
         </main>
@@ -110,9 +148,8 @@ export default function DemoPage() {
         )}
       </div>
 
-      {!isHero && !presentation && <NavDots current={current} onSelect={goto} />}
+      {!isHero && !presentation && !sidebarView && <NavDots current={current} onSelect={goto} />}
 
-      {/* Hint */}
       {isHero && (
         <div className="fixed bottom-5 left-1/2 -translate-x-1/2 text-white/40 text-[10px] uppercase tracking-[0.2em] font-bold pointer-events-none">
           ← / → navegar  ·  P presentación  ·  0–7 ir a pantalla
@@ -120,4 +157,15 @@ export default function DemoPage() {
       )}
     </div>
   )
+}
+
+function prettyView(view: SidebarView): string {
+  const map: Record<Exclude<SidebarView, null>, string> = {
+    dashboard: 'Dashboard general',
+    leads: 'Leads activos',
+    espacios: 'Inventario · Espacios',
+    brokers: 'Brokers · actividad',
+    documentacion: 'Documentación del proyecto',
+  }
+  return view ? map[view] : ''
 }

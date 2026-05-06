@@ -14,7 +14,7 @@ export function ConfirmSection({ onNext }: { onNext: () => void }) {
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="bg-gradient-to-r from-alert-green via-emerald-500 to-alert-green text-white px-8 py-6 flex items-center gap-6 stripe-bg"
+        className="bg-[#16A34A] text-white px-8 py-6 flex items-center gap-6"
       >
         <motion.div
           initial={{ scale: 0 }}
@@ -39,10 +39,10 @@ export function ConfirmSection({ onNext }: { onNext: () => void }) {
           </p>
         </div>
         <div className="text-right pr-2">
-          <div className="text-[11px] uppercase tracking-wider font-bold text-white/80">tiempo total del proceso</div>
-          <div className="font-black tracking-tight" style={{ fontSize: '64px', lineHeight: 1 }}>
+          <div className="text-[11px] uppercase tracking-wider font-bold text-white/85">tiempo total del proceso</div>
+          <div className="font-black tracking-tight text-white" style={{ fontSize: '64px', lineHeight: 1 }}>
             <LiveCounter from={0} to={47} duration={1400} delay={400} />
-            <span className="text-3xl opacity-80 ml-1">SEG</span>
+            <span className="text-3xl text-white/85 ml-1">SEG</span>
           </div>
         </div>
       </motion.div>

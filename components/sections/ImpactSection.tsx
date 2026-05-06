@@ -1,6 +1,6 @@
 'use client'
 import { motion } from 'framer-motion'
-import { X, Check, Zap, TrendingUp, Calendar, DollarSign, Target, Github, RotateCcw, Sparkles } from 'lucide-react'
+import { X, Check, Zap, Calendar, DollarSign, Github, RotateCcw, Sparkles } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { LiveCounter } from '@/components/demo/LiveCounter'
 import { DATA } from '@/lib/data'
@@ -161,111 +161,51 @@ export function ImpactSection({ onRestart }: { onRestart: () => void }) {
           />
         </div>
 
-        {/* Timeline hackathon */}
+        {/* Créditos compactos · cierre */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="bg-white border border-spot-border rounded-xl shadow-card p-5"
+          className="bg-white border border-spot-border rounded-xl shadow-card px-7 py-6 flex items-center justify-between gap-6 flex-wrap"
         >
-          <div className="flex items-center justify-between mb-5 flex-wrap gap-2">
-            <div>
-              <div className="text-[11px] uppercase tracking-wider font-bold text-spot-mid">Hackathon Spot2 AI Edition · 2026</div>
-              <h3 className="font-bold text-spot-dark text-[16px] mt-0.5">El recorrido del proyecto</h3>
+          <div className="min-w-0">
+            <div className="text-[11px] uppercase tracking-wider font-bold text-spot-mid">
+              Hackathon Spot2 AI Edition · 2026
             </div>
-            <Badge tone="amber" uppercase>Proyecto ganador #02/04</Badge>
+            <div className="font-black text-spot-dark text-[18px] mt-0.5">
+              Match Engine · Proyecto ganador #02/04
+            </div>
+            <div className="text-[13px] text-spot-mid mt-1">
+              Propuesta original y diseño:{' '}
+              <span className="font-bold text-spot-dark">Leandro Balbian</span>{' '}
+              · Product Designer, Spot2
+            </div>
+            <div className="text-[12px] text-spot-mid mt-2 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-amber" />
+              Construido sobre <strong className="text-spot-dark">Dijin</strong>, el MCP de Spot2 en producción.
+            </div>
           </div>
-          <div className="relative">
-            <div className="absolute left-4 right-4 top-4 h-0.5 bg-spot-border" />
-            <motion.div
-              className="absolute left-4 top-4 h-0.5 bg-amber"
-              initial={{ width: 0 }}
-              whileInView={{ width: 'calc(100% - 32px)' }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.4, ease: 'easeOut', delay: 0.2 }}
-            />
-            <div className="relative grid grid-cols-5">
-              {[
-                { day: 'V10', label: 'Kickoff', color: 'bg-amber' },
-                { day: 'S–D', label: 'War Room', color: 'bg-amber' },
-                { day: 'L13', label: 'AWS Inmersión', color: 'bg-amber' },
-                { day: 'M–M', label: 'Construcción', color: 'bg-amber' },
-                { day: 'J17', label: 'Demo Day', color: 'bg-alert-green' },
-              ].map((m, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 8 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3 + i * 0.15 }}
-                  className="flex flex-col items-center text-center px-2"
-                >
-                  <div className={cn('w-9 h-9 rounded-full flex items-center justify-center text-white font-black text-[11px] shadow', m.color)}>
-                    {m.day}
-                  </div>
-                  <div className="mt-2 text-[12px] font-bold text-spot-dark">{m.label}</div>
-                </motion.div>
-              ))}
-            </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={onRestart}
+              className="bg-white border border-spot-border text-spot-dark font-bold px-4 py-2.5 rounded-md text-[13px] inline-flex items-center gap-2 hover:bg-spot-bg"
+            >
+              <RotateCcw className="w-4 h-4" />
+              Volver al inicio
+            </button>
+            <a
+              href="https://github.com/leandrobalbian-coder/Match-engine"
+              target="_blank"
+              rel="noreferrer"
+              className="bg-amber hover:bg-amber-mid text-spot-charcoal font-bold px-4 py-2.5 rounded-md text-[13px] inline-flex items-center gap-2 shadow-amber"
+            >
+              <Github className="w-4 h-4" />
+              Ver el código
+              <span>→</span>
+            </a>
           </div>
         </motion.div>
-
-        {/* CTA banner */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="relative bg-spot-charcoal rounded-2xl px-10 py-12 text-white overflow-hidden hero-radial"
-        >
-          <div className="absolute inset-0 grid-bg opacity-[0.07]" />
-          <div className="relative z-10 flex flex-col items-center text-center gap-5">
-            <Badge tone="amber" pulse uppercase>El cierre</Badge>
-            <h2 className="font-black tracking-tight" style={{ fontSize: 'clamp(28px, 5vw, 52px)', lineHeight: 1.05 }}>
-              La pregunta no es <span className="text-amber">si</span> construirlo.
-              <br />
-              <span className="text-white/80">La pregunta es</span> cuántos leads más <span className="underline decoration-amber decoration-4 underline-offset-4">perdemos mientras esperamos</span>.
-            </h2>
-
-            <div className="mt-2 max-w-2xl border-2 border-amber/40 bg-amber/5 rounded-xl px-5 py-4 flex items-center gap-3">
-              <Zap className="w-5 h-5 text-amber shrink-0" />
-              <p className="text-[13px] text-white/85 leading-relaxed">
-                <strong className="text-amber">Esto no es un wireframe.</strong> Match Engine está construido sobre <strong>Dijin</strong>, el MCP de Spot2 que ya existe en producción y conecta con la BD real, los espacios públicos y el motor de matching semántico.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-3 mt-2">
-              <button
-                onClick={onRestart}
-                className="bg-white text-spot-charcoal font-bold px-5 py-3 rounded-md text-[13px] inline-flex items-center gap-2 hover:bg-amber-light"
-              >
-                <RotateCcw className="w-4 h-4" />
-                Volver al inicio
-              </button>
-              <a
-                href="https://github.com/spot2"
-                target="_blank"
-                rel="noreferrer"
-                className="bg-amber hover:bg-amber-mid text-spot-charcoal font-bold px-5 py-3 rounded-md text-[13px] inline-flex items-center gap-2 shadow-amber"
-              >
-                <Github className="w-4 h-4" />
-                Ver el código
-                <span>→</span>
-              </a>
-            </div>
-
-            <div className="mt-5 grid grid-cols-3 gap-6 max-w-2xl w-full text-center pt-4 border-t border-white/10">
-              <FooterStat icon={Target} value="8%" label="objetivo conversión · mes 1" />
-              <FooterStat icon={TrendingUp} value="+363" label="visitas / mes" />
-              <FooterStat icon={Sparkles} value="Dijin" label="MCP en producción" />
-            </div>
-          </div>
-        </motion.div>
-
-        <div className="text-center text-[11px] text-spot-mid font-medium pb-4">
-          Match Engine · Hackathon Spot2 AI Edition 2026 · Leandro Balbian, Product Designer
-        </div>
       </div>
     </div>
   )
@@ -322,22 +262,3 @@ function ImpactCard({
   )
 }
 
-function FooterStat({
-  icon: Icon,
-  value,
-  label,
-}: {
-  icon: React.ComponentType<{ className?: string }>
-  value: string
-  label: string
-}) {
-  return (
-    <div className="flex flex-col items-center">
-      <div className="flex items-center gap-1.5 text-amber">
-        <Icon className="w-4 h-4" />
-        <span className="font-black text-2xl">{value}</span>
-      </div>
-      <div className="text-[10px] uppercase tracking-wider font-bold text-white/50 mt-1">{label}</div>
-    </div>
-  )
-}
