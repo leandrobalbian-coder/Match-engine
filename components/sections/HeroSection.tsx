@@ -7,18 +7,16 @@ import { DATA } from '@/lib/data'
 
 export function HeroSection({ onStart }: { onStart: () => void }) {
   return (
-    <div className="relative w-full h-full overflow-hidden bg-black text-white flex">
-      {/* Background — pure black with a single warm radial behind the number */}
+    <div className="relative w-full h-full overflow-hidden bg-[#050505] text-white flex">
+      {/* Background — pure black with a single very faint radial */}
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse 60% 55% at 38% 50%, rgba(255,170,0,0.18) 0%, rgba(255,170,0,0.06) 35%, transparent 70%)',
+              'radial-gradient(ellipse 50% 45% at 38% 50%, rgba(255,170,0,0.07) 0%, transparent 65%)',
           }}
         />
-        {/* Soft amber dot pattern very faint */}
-        <div className="absolute inset-0 hero-dots opacity-[0.05]" />
       </div>
 
       {/* Logo top-left */}
@@ -28,77 +26,75 @@ export function HeroSection({ onStart }: { onStart: () => void }) {
         </span>
       </div>
 
-      {/* Hint bottom-center */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.4, duration: 0.6 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 text-white/30 text-[10px] uppercase tracking-[0.22em] font-bold pointer-events-none"
-      >
-        ← / → navegar  ·  P presentación  ·  0–7 ir a pantalla
-      </motion.div>
+      {/* status indicator top-right */}
+      <div className="absolute top-7 right-10 z-30 hidden md:flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] font-mono text-white/35">
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="absolute inline-flex h-full w-full rounded-full bg-amber opacity-50 animate-ping" />
+          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber" />
+        </span>
+        v1.0 · live data
+      </div>
 
       {/* LEFT — main content */}
       <div className="relative z-10 flex-1 min-w-0 flex flex-col justify-center px-10 lg:px-16 xl:pl-24">
         <div className="max-w-[760px] mx-auto w-full">
           {/* Top pill */}
           <motion.div
-            initial={{ opacity: 0, y: -8 }}
+            initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="flex justify-center mb-6"
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="flex justify-center mb-8"
           >
-            <span className="inline-flex items-center gap-2 border border-amber/45 text-amber rounded-full px-5 py-2 text-[11px] uppercase tracking-[0.2em] font-bold">
+            <span className="inline-flex items-center gap-2 border border-amber/35 text-amber/90 rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.22em] font-mono">
+              <span className="w-1 h-1 rounded-full bg-amber" />
               Hackathon Spot2 AI Edition 2026
             </span>
           </motion.div>
 
           {/* Massive number */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 12 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-amber font-black tracking-[-0.04em] text-center select-none"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-amber font-black tracking-[-0.05em] text-center select-none"
             style={{
               fontSize: 'clamp(140px, 19vw, 300px)',
-              lineHeight: 0.86,
-              textShadow: '0 12px 80px rgba(255,170,0,0.22), 0 0 40px rgba(255,170,0,0.12)',
+              lineHeight: 0.85,
             }}
           >
             <LiveCounter
               from={0}
               to={DATA.leadsSelfServiceSinAtencion}
-              duration={2000}
-              delay={500}
+              duration={1800}
+              delay={400}
               inViewOnly={false}
             />
           </motion.div>
 
           {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.4 }}
-            className="mt-5 text-center text-white/85 text-[18px] md:text-[22px] font-medium leading-snug"
+            transition={{ duration: 0.55, delay: 1.2 }}
+            className="mt-6 text-center text-white/80 text-[16px] md:text-[19px] font-medium leading-snug"
           >
             leads activos esperando respuesta{' '}
-            <span className="text-amber font-semibold">ahora mismo</span>
+            <span className="text-amber">ahora mismo</span>
           </motion.p>
 
           {/* CTA */}
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.7 }}
-            className="mt-8 flex justify-center"
+            transition={{ duration: 0.45, delay: 1.5 }}
+            className="mt-9 flex justify-center"
           >
             <button
               onClick={onStart}
-              className="group inline-flex items-center gap-2 bg-amber text-spot-charcoal font-bold px-7 py-3 rounded-full text-[14px] hover:bg-amber-mid hover:brightness-105 transition-all"
-              style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}
+              className="group inline-flex items-center gap-2 bg-amber text-spot-charcoal font-bold px-6 py-2.5 rounded-full text-[13px] hover:bg-amber-mid hover:brightness-105 transition-all"
             >
               Ver la demo
-              <span className="transition-transform group-hover:translate-x-1">→</span>
+              <span className="transition-transform group-hover:translate-x-0.5">→</span>
             </button>
           </motion.div>
 
@@ -106,14 +102,14 @@ export function HeroSection({ onStart }: { onStart: () => void }) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 2 }}
-            className="mt-14 flex items-center justify-center gap-7 text-white/55 text-[13px] font-medium"
+            transition={{ duration: 0.5, delay: 1.8 }}
+            className="mt-16 flex items-center justify-center gap-6 text-white/45 text-[11.5px] font-mono uppercase tracking-wider"
           >
-            <Stat icon={<Zap className="w-4 h-4" strokeWidth={2.2} />} label="113× más rápido" />
+            <Stat icon={<Zap className="w-3.5 h-3.5" strokeWidth={2} />} label="113× más rápido" />
             <Sep />
-            <Stat icon={<Clock className="w-4 h-4" strokeWidth={2.2} />} label="47 segundos" />
+            <Stat icon={<Clock className="w-3.5 h-3.5" strokeWidth={2} />} label="47 segundos" />
             <Sep />
-            <Stat icon={<DollarSign className="w-4 h-4" strokeWidth={2.2} />} label="$2.7M MXN" />
+            <Stat icon={<DollarSign className="w-3.5 h-3.5" strokeWidth={2} />} label="$2.7M MXN" />
           </motion.div>
         </div>
       </div>

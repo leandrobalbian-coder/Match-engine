@@ -10,11 +10,11 @@ import { BadgeCheck, ChevronLeft, Phone, Video, Plus, Camera, Mic, Smile, BedDou
 export function HeroPhone() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24, rotate: -1 }}
-      animate={{ opacity: 1, y: 0, rotate: -1.5 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
       className="relative"
-      style={{ filter: 'drop-shadow(0 60px 80px rgba(0,0,0,0.55)) drop-shadow(0 30px 40px rgba(0,0,0,0.35))' }}
+      style={{ filter: 'drop-shadow(0 40px 60px rgba(0,0,0,0.6))' }}
     >
       {/* Outer titanium frame */}
       <div
@@ -181,78 +181,122 @@ function Meta({ time, outgoing = false }: { time: string; outgoing?: boolean }) 
 
 function PropertyCard() {
   return (
-    <div className="rounded-md overflow-hidden bg-black/20">
-      {/* "House at night" generated entirely with CSS — modern architecture vibe */}
+    <div className="rounded-md overflow-hidden bg-black/30 border border-white/5">
+      {/* Clean architectural wireframe — feels tech, not "fake photo" */}
       <div className="relative aspect-[16/10] overflow-hidden">
-        {/* Sky gradient */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(180deg, #0E1A24 0%, #16252F 40%, #1B2730 70%, #0F1820 100%)',
+              'linear-gradient(135deg, #131D24 0%, #0B141A 60%, #050A0E 100%)',
           }}
         />
-        {/* Soft warm glow from windows */}
+        {/* Faint blueprint grid */}
         <div
-          className="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none"
+          className="absolute inset-0 opacity-60"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)',
+            backgroundSize: '14px 14px',
+          }}
+        />
+        {/* Architecture line drawing */}
+        <svg
+          viewBox="0 0 200 125"
+          className="absolute inset-0 w-full h-full"
+          preserveAspectRatio="xMidYMid slice"
+        >
+          {/* Ground line */}
+          <line x1="0" y1="105" x2="200" y2="105" stroke="rgba(255,255,255,0.18)" strokeWidth="0.4" />
+
+          {/* Modern villa — main horizontal block */}
+          <rect
+            x="38"
+            y="60"
+            width="86"
+            height="45"
+            fill="rgba(8,12,16,0.85)"
+            stroke="rgba(255,255,255,0.22)"
+            strokeWidth="0.5"
+          />
+          {/* Cantilevered roof */}
+          <rect
+            x="34"
+            y="56"
+            width="94"
+            height="4"
+            fill="rgba(255,255,255,0.04)"
+            stroke="rgba(255,255,255,0.22)"
+            strokeWidth="0.4"
+          />
+
+          {/* Tall annex on the right */}
+          <rect
+            x="124"
+            y="42"
+            width="42"
+            height="63"
+            fill="rgba(8,12,16,0.85)"
+            stroke="rgba(255,255,255,0.25)"
+            strokeWidth="0.5"
+          />
+          <rect
+            x="120"
+            y="38"
+            width="50"
+            height="4"
+            fill="rgba(255,255,255,0.04)"
+            stroke="rgba(255,255,255,0.22)"
+            strokeWidth="0.4"
+          />
+
+          {/* Main villa — floor-to-ceiling glass strip */}
+          <rect x="44" y="68" width="74" height="14" fill="rgba(255,170,0,0.55)" />
+          <rect x="44" y="68" width="74" height="14" fill="none" stroke="rgba(255,170,0,0.85)" strokeWidth="0.3" />
+          {/* mullions */}
+          {[58, 72, 86, 100].map((x) => (
+            <line key={x} x1={x} y1="68" x2={x} y2="82" stroke="rgba(255,170,0,0.25)" strokeWidth="0.3" />
+          ))}
+
+          {/* Lower band — entrance + secondary windows */}
+          <rect x="44" y="88" width="14" height="13" fill="rgba(255,170,0,0.4)" />
+          <rect x="64" y="88" width="14" height="13" fill="rgba(255,170,0,0.55)" />
+          <rect x="84" y="88" width="14" height="13" fill="rgba(255,170,0,0.4)" />
+          <rect x="104" y="88" width="14" height="13" fill="rgba(255,170,0,0.55)" />
+
+          {/* Tall annex windows grid */}
+          {[
+            [128, 50], [144, 50], [156, 50],
+            [128, 64], [144, 64], [156, 64],
+            [128, 78], [144, 78],            [156, 78],
+            [128, 92], [144, 92], [156, 92],
+          ].map(([x, y], i) => (
+            <rect
+              key={i}
+              x={x}
+              y={y}
+              width="9"
+              height="10"
+              fill={`rgba(255,170,0,${0.28 + ((i * 13) % 5) * 0.12})`}
+            />
+          ))}
+
+          {/* Reflection / pool on the ground */}
+          <rect x="44" y="106" width="100" height="6" fill="rgba(255,170,0,0.06)" />
+
+          {/* Tree silhouettes */}
+          <ellipse cx="14" cy="98" rx="6" ry="14" fill="rgba(0,0,0,0.85)" />
+          <ellipse cx="186" cy="100" rx="5" ry="10" fill="rgba(0,0,0,0.85)" />
+        </svg>
+
+        {/* Subtle warm glow above the house */}
+        <div
+          className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              'radial-gradient(ellipse at 60% 90%, rgba(255,170,0,0.32) 0%, transparent 60%)',
+              'radial-gradient(ellipse 50% 30% at 50% 70%, rgba(255,170,0,0.16) 0%, transparent 70%)',
           }}
         />
-        {/* Architecture: layered horizontal slabs */}
-        <div className="absolute left-[18%] right-[8%] bottom-[12%] flex flex-col gap-[3px]">
-          {/* Roof slab */}
-          <div className="h-3 rounded-sm bg-[#0B121A] border border-white/5" />
-          {/* Upper floor with lit windows */}
-          <div className="h-12 rounded-sm bg-[#101820] border border-white/5 relative overflow-hidden">
-            <div className="absolute inset-1 grid grid-cols-5 gap-[3px]">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="rounded-[1px]"
-                  style={{
-                    background:
-                      i === 1 || i === 3
-                        ? 'linear-gradient(180deg, #FFD58A 0%, #FFAA00 100%)'
-                        : '#0B141A',
-                    boxShadow: i === 1 || i === 3 ? '0 0 6px rgba(255,170,0,0.6)' : 'none',
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-          {/* Middle slab */}
-          <div className="h-1.5 bg-[#080C12]" />
-          {/* Lower floor with bigger lit windows */}
-          <div className="h-14 rounded-sm bg-[#0E151B] border border-white/5 relative overflow-hidden">
-            <div className="absolute inset-1 grid grid-cols-3 gap-[3px]">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="rounded-[1px]"
-                  style={{
-                    background:
-                      'linear-gradient(180deg, #FFE0A8 0%, #FFAA00 100%)',
-                    boxShadow: '0 0 8px rgba(255,170,0,0.55)',
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-        {/* Pool reflection */}
-        <div
-          className="absolute left-[8%] right-[8%] bottom-[5%] h-2 rounded-sm"
-          style={{
-            background:
-              'linear-gradient(180deg, rgba(255,170,0,0.22) 0%, rgba(255,170,0,0.05) 100%)',
-            filter: 'blur(1px)',
-          }}
-        />
-        {/* Tree silhouettes */}
-        <div className="absolute left-[5%] bottom-[8%] w-3 h-12 bg-[#040810] rounded-full opacity-90" />
-        <div className="absolute right-[3%] bottom-[8%] w-2.5 h-10 bg-[#040810] rounded-full opacity-90" />
       </div>
       {/* Property info */}
       <div className="p-2.5 space-y-1">
