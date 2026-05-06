@@ -1,6 +1,7 @@
 'use client'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { AlertTriangle, Check, Loader2, MapPin, Briefcase, Ruler, DollarSign, Phone, Building, Clock, Sparkles, ArrowRight } from 'lucide-react'
+import { AlertTriangle, Check, Loader2, MapPin, Briefcase, Ruler, DollarSign, Phone, Building, Clock, ArrowRight } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { AgentThinking } from '@/components/demo/AgentThinking'
 import { DATA } from '@/lib/data'
@@ -8,25 +9,53 @@ import { cn } from '@/lib/utils'
 
 const lead = DATA.leadsDemo[0]
 
+const AGENT_LINES = [
+  { text: 'Leyendo requerimiento del lead #8412…' },
+  { text: 'Prospecto busca oficina 150–250 m²' },
+  { text: 'en Polanco / Lomas de Chapultepec.' },
+  { text: 'Budget: $90,000 MXN / mes.' },
+  { text: 'Perfil: corporativo nivel medio-alto.' },
+  { text: 'Buscando en 5,554 spots activos…' },
+  { text: 'Ranking semántico vía Dijin (MCP Spot2)…' },
+  { text: '✓ Match completado · 3 resultados encontrados', finalSuccess: true },
+] as const
+
 export function RadarSection({ onNext }: { onNext: () => void }) {
+  const [agentDone, setAgentDone] = useState(false)
+  const [progress, setProgress] = useState(0) // 0..1
+
   return (
     <div className="h-full overflow-auto thin-scroll bg-spot-bg">
       <div className="px-8 py-7">
         {/* Title */}
-        <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
           <div>
-            <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-bold text-amber-dark">
-              <Sparkles className="w-3.5 h-3.5" /> MatchAgent activado
+            <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-bold text-spot-mid">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-amber opacity-60 animate-ping" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber" />
+              </span>
+              MatchAgent activado
             </div>
-            <h1 className="text-[24px] font-black tracking-tight text-spot-dark mt-0.5">
+            <h1 className="text-[28px] font-black tracking-tight text-spot-dark mt-0.5">
               Radar · Lead detectado
             </h1>
           </div>
           <button
             onClick={onNext}
-            className="text-[12px] font-bold text-spot-mid hover:text-spot-dark inline-flex items-center gap-1.5"
+            disabled={!agentDone}
+            className={cn(
+              'inline-flex items-center gap-2 px-4 py-2.5 rounded-md text-[13px] font-bold transition-all',
+              agentDone
+                ? 'bg-amber text-spot-charcoal hover:bg-amber-mid cursor-pointer'
+                : 'bg-spot-border text-spot-mid cursor-not-allowed opacity-60',
+            )}
           >
-            Continuar al matching <ArrowRight className="w-3.5 h-3.5" />
+            {agentDone ? (
+              <>Continuar al matching <ArrowRight className="w-4 h-4" /></>
+            ) : (
+              <>Analizando… <Loader2 className="w-4 h-4 animate-spin" /></>
+            )}
           </button>
         </div>
 
@@ -106,7 +135,7 @@ export function RadarSection({ onNext }: { onNext: () => void }) {
                       className={cn(
                         'absolute -left-[18px] top-3 w-3.5 h-3.5 rounded-full border-2 border-white',
                         m.tone === 'amber'
-                          ? 'bg-amber animate-soft-pulse'
+                          ? 'bg-amber'
                           : 'bg-spot-mid/40',
                       )}
                     />
@@ -138,7 +167,11 @@ export function RadarSection({ onNext }: { onNext: () => void }) {
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-[11px] uppercase tracking-wider font-bold text-spot-mid">Análisis del agente</h3>
-                <Badge tone="amber" pulse uppercase>Procesando</Badge>
+                {agentDone ? (
+                  <Badge tone="green" uppercase>Completado</Badge>
+                ) : (
+                  <Badge tone="gray" uppercase>Procesando</Badge>
+                )}
               </div>
               <div className="space-y-2.5">
                 <Check4 done={true} delay={0.4}>
@@ -150,8 +183,8 @@ export function RadarSection({ onNext }: { onNext: () => void }) {
                 <Check4 done={true} delay={1.4}>
                   Contacto posible: WhatsApp registrado
                 </Check4>
-                <Check4 done={false} delay={1.9}>
-                  Iniciando matching semántico…
+                <Check4 done={agentDone} delay={1.9}>
+                  {agentDone ? '3 matches semánticos identificados' : 'Iniciando matching semántico…'}
                 </Check4>
               </div>
             </motion.div>
@@ -160,20 +193,36 @@ export function RadarSection({ onNext }: { onNext: () => void }) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
+              className="space-y-2"
             >
+              {/* Progress bar */}
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-spot-mid">
+                    Procesando requerimiento
+                  </span>
+                  <span className="text-[10px] font-bold text-spot-dark tabular-nums">
+                    {Math.round(progress * 100)}%
+                  </span>
+                </div>
+                <div className="h-1 bg-spot-border rounded-full overflow-hidden">
+                  <motion.div
+                    className={cn('h-full rounded-full', agentDone ? 'bg-alert-green' : 'bg-amber')}
+                    animate={{ width: `${progress * 100}%` }}
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                  />
+                </div>
+              </div>
+
               <AgentThinking
-                lines={[
-                  { text: 'Leyendo requerimiento del lead #8412…' },
-                  { text: 'Prospecto busca oficina 150–250 m²' },
-                  { text: 'en Polanco / Lomas de Chapultepec.' },
-                  { text: 'Budget: $90,000 MXN / mes.' },
-                  { text: 'Perfil: corporativo nivel medio-alto.' },
-                  { text: 'Buscando en 5,554 spots activos…' },
-                  { text: 'Ranking semántico vía Dijin (MCP Spot2)…' },
-                ]}
-                startDelay={1100}
-                charDelay={20}
-                lineDelay={250}
+                lines={[...AGENT_LINES]}
+                totalDurationMs={3200}
+                startDelay={600}
+                onProgress={(i, total) => setProgress(i / total)}
+                onComplete={() => {
+                  setAgentDone(true)
+                  setProgress(1)
+                }}
               />
             </motion.div>
 

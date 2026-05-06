@@ -1,12 +1,17 @@
 'use client'
-import { ChevronLeft, ChevronRight, Maximize2, Minimize2, ArrowLeft } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Maximize2, Minimize2, ArrowLeft, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { SCREENS } from '@/lib/data'
+
+const STEP_LABELS_SHORT = [
+  'Inicio', 'Problema', 'Radar', 'Match', 'Ficha', 'WhatsApp', 'Confirmar', 'ROI',
+]
 
 export function ProgressHeader({
   current,
   onPrev,
   onNext,
+  onGoto,
   presentation,
   togglePresentation,
   sidebarViewLabel,
@@ -15,82 +20,124 @@ export function ProgressHeader({
   current: number
   onPrev: () => void
   onNext: () => void
+  onGoto: (i: number) => void
   presentation: boolean
   togglePresentation: () => void
   sidebarViewLabel?: string | null
   onClearView?: () => void
 }) {
-  const currentScreen = SCREENS.find((s) => s.id === current)
   const isContextView = !!sidebarViewLabel
 
   return (
-    <header className="h-12 border-b border-spot-border bg-white/80 backdrop-blur flex items-center px-5 gap-4 sticky top-0 z-30">
-      <div className="flex items-center gap-2 min-w-0">
-        <span className="text-[10px] uppercase tracking-[0.2em] font-black text-spot-mid shrink-0">
+    <header className="h-14 border-b border-spot-border bg-white flex items-center px-5 gap-4 sticky top-0 z-30">
+      {/* Breadcrumb izquierdo */}
+      <div className="flex items-center gap-2 min-w-0 w-[180px] shrink-0">
+        <span className="text-[10px] uppercase tracking-[0.2em] font-black text-spot-mid">
           MATCH ENGINE
         </span>
-        <span className="text-[10px] text-spot-mid">/</span>
-        {isContextView ? (
+        {isContextView && (
           <>
-            <span className="text-[12px] font-bold text-amber-dark truncate">{sidebarViewLabel}</span>
-            <button
-              onClick={onClearView}
-              className="ml-2 text-[10px] uppercase tracking-wider font-bold text-spot-mid hover:text-spot-dark inline-flex items-center gap-1 border border-spot-border rounded-md px-2 py-0.5 bg-white"
-            >
-              <ArrowLeft className="w-3 h-3" /> Volver a la demo
-            </button>
+            <span className="text-[10px] text-spot-mid">/</span>
+            <span className="text-[11px] font-bold text-spot-dark truncate">{sidebarViewLabel}</span>
           </>
-        ) : (
-          <span className="text-[12px] font-bold text-spot-dark">{currentScreen?.label}</span>
         )}
       </div>
 
-      <div className="flex-1 flex items-center justify-center gap-1.5">
-        {SCREENS.map((s) => (
-          <span
-            key={s.id}
-            className={cn(
-              'h-1 rounded-full transition-all',
-              isContextView
-                ? 'bg-spot-border w-3'
-                : current === s.id
-                ? 'w-8 bg-amber'
-                : current > s.id
-                ? 'w-3 bg-amber/40'
-                : 'w-3 bg-spot-border',
-            )}
-          />
-        ))}
+      {/* Centro */}
+      <div className="flex-1 flex items-center justify-center">
+        {isContextView ? (
+          <button
+            onClick={onClearView}
+            className="text-[11px] font-bold text-spot-mid hover:text-spot-dark inline-flex items-center gap-1.5 border border-spot-border rounded-md px-3 py-1.5 bg-spot-bg hover:bg-white transition-colors"
+          >
+            <ArrowLeft className="w-3 h-3" /> Volver al flujo de la demo
+          </button>
+        ) : (
+          <div className="flex items-center gap-0">
+            {SCREENS.map((screen, idx) => {
+              const isCompleted = current > screen.id
+              const isActive = current === screen.id
+              const isLast = idx === SCREENS.length - 1
+              return (
+                <div key={screen.id} className="flex items-center">
+                  <button
+                    onClick={() => onGoto(screen.id)}
+                    className="flex flex-col items-center gap-1 group px-1.5"
+                    title={screen.label}
+                    aria-label={`Ir a ${screen.label}`}
+                  >
+                    <div
+                      className={cn(
+                        'w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black transition-all',
+                        isCompleted && 'bg-amber text-spot-charcoal',
+                        isActive && 'bg-amber text-spot-charcoal ring-2 ring-amber/30 ring-offset-2',
+                        !isCompleted && !isActive && 'bg-spot-border text-spot-mid group-hover:bg-spot-mid/40',
+                      )}
+                    >
+                      {isCompleted ? <Check className="w-3.5 h-3.5" strokeWidth={3.5} /> : screen.id + 1}
+                    </div>
+                    <span
+                      className={cn(
+                        'text-[9px] font-bold uppercase tracking-wider transition-all whitespace-nowrap leading-none',
+                        isActive
+                          ? 'text-amber-dark opacity-100'
+                          : 'text-spot-mid opacity-0 group-hover:opacity-70',
+                      )}
+                    >
+                      {STEP_LABELS_SHORT[screen.id] || screen.label}
+                    </span>
+                  </button>
+                  {!isLast && (
+                    <div
+                      className={cn(
+                        'h-[1.5px] w-5 mx-0.5 transition-all',
+                        isCompleted ? 'bg-amber' : 'bg-spot-border',
+                      )}
+                    />
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
       </div>
 
-      <div className="flex items-center gap-1">
+      {/* Controles derecha */}
+      <div className="flex items-center gap-1 w-[180px] justify-end shrink-0">
         <button
           onClick={togglePresentation}
-          className="h-8 px-2 rounded-md border border-spot-border text-spot-mid hover:bg-spot-bg flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider"
+          className="h-7 px-2 rounded border border-spot-border text-spot-mid hover:bg-spot-bg flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors"
           title="Modo presentación (P)"
         >
-          {presentation ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
-          {presentation ? 'Salir' : 'Pres.'}
+          {presentation ? (
+            <>
+              <Minimize2 className="w-3 h-3" /> Salir
+            </>
+          ) : (
+            <>
+              <Maximize2 className="w-3 h-3" /> Pres.
+            </>
+          )}
         </button>
-        <div className="ml-2 flex items-center bg-spot-bg border border-spot-border rounded-md overflow-hidden">
+        <div className="ml-1 flex items-center bg-spot-bg border border-spot-border rounded overflow-hidden">
           <button
             onClick={onPrev}
             disabled={current === 0 || isContextView}
-            className="h-8 px-2 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed text-spot-dark"
+            className="h-7 w-7 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed text-spot-dark flex items-center justify-center transition-colors"
             aria-label="Anterior"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-3.5 h-3.5" />
           </button>
-          <span className="px-2 text-[11px] font-bold text-spot-mid border-x border-spot-border h-8 flex items-center tabular-nums">
-            {isContextView ? '··' : `${current + 1} / ${SCREENS.length}`}
+          <span className="px-1.5 text-[10px] font-bold text-spot-mid border-x border-spot-border h-7 flex items-center tabular-nums">
+            {isContextView ? '··' : `${current + 1}/${SCREENS.length}`}
           </span>
           <button
             onClick={onNext}
             disabled={current === SCREENS.length - 1 || isContextView}
-            className="h-8 px-2 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed text-spot-dark"
+            className="h-7 w-7 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed text-spot-dark flex items-center justify-center transition-colors"
             aria-label="Siguiente"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>

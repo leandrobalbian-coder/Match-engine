@@ -14,7 +14,7 @@ export function FichaSection({ onNext }: { onNext: () => void }) {
             <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-bold text-amber-dark">
               <FileText className="w-3.5 h-3.5" /> MatchAgent · paso 3
             </div>
-            <h1 className="text-[24px] font-black tracking-tight text-spot-dark mt-0.5">
+            <h1 className="text-[28px] font-black tracking-tight text-spot-dark mt-0.5">
               Ficha generada · listo para enviar
             </h1>
           </div>
@@ -66,7 +66,6 @@ export function FichaSection({ onNext }: { onNext: () => void }) {
                 <h3 className="text-[11px] uppercase tracking-wider font-bold text-spot-mid">
                   Mensaje WhatsApp · preview
                 </h3>
-                <Badge tone="green" uppercase>Optimizado</Badge>
               </div>
               <div className="bg-wa-bubbleIn border border-spot-border rounded-lg rounded-tl-sm p-3 text-[13px] text-spot-dark shadow-sm max-w-[85%]">
                 <div className="font-bold text-spot-charcoal mb-1.5">¡Hola Ana! 👋</div>
@@ -82,7 +81,7 @@ export function FichaSection({ onNext }: { onNext: () => void }) {
               className="grid grid-cols-3 gap-3"
             >
               <SendStat label="Tiempo de generación" value="4.2s" />
-              <SendStat label="Match score promedio" value="88%" tone="amber" />
+              <SendStat label="Match score promedio" value="88%" />
               <SendStat label="Canal" value="WhatsApp" />
             </motion.div>
 
@@ -157,23 +156,18 @@ function FichaRow({ espacio, index }: { espacio: (typeof DATA.espaciosMatch)[num
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.15 + index * 0.18, duration: 0.45 }}
       className={cn(
-        'border rounded-xl p-3 flex gap-3 items-stretch',
-        isBest ? 'border-amber bg-amber-light' : 'border-spot-border bg-white',
+        'border-2 rounded-xl p-3 flex gap-3 items-stretch',
+        isBest ? 'border-spot-dark bg-white' : 'border-spot-border bg-white',
       )}
     >
-      <div
-        className="w-32 shrink-0 rounded-lg relative overflow-hidden"
-        style={{
-          background: `linear-gradient(135deg, ${isBest ? '#FFAA00' : '#6E717F'}26, ${isBest ? '#FFBB33' : '#434653'}40)`,
-        }}
-      >
+      <div className="w-32 shrink-0 rounded-lg relative overflow-hidden bg-gradient-to-br from-spot-bg to-spot-border">
         <div className="absolute inset-0 grid-bg opacity-50" />
-        <div className="absolute top-2 left-2 text-[10px] font-bold uppercase tracking-wider bg-white/80 backdrop-blur px-1.5 py-0.5 rounded text-spot-dark">
+        <div className="absolute top-2 left-2 text-[10px] font-bold uppercase tracking-wider bg-white/85 backdrop-blur px-1.5 py-0.5 rounded text-spot-dark">
           {espacio.id}
         </div>
         {isBest && (
           <div className="absolute bottom-2 left-2">
-            <Badge tone="amber" uppercase className="!bg-amber !text-spot-charcoal !border-amber">
+            <Badge tone="dark" uppercase>
               <Star className="w-3 h-3" /> Mejor opción
             </Badge>
           </div>
@@ -182,7 +176,7 @@ function FichaRow({ espacio, index }: { espacio: (typeof DATA.espaciosMatch)[num
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
           <h4 className="font-bold text-spot-dark text-[14px]">{espacio.nombre}</h4>
-          <Badge tone={espacio.score >= 90 ? 'green' : espacio.score >= 85 ? 'amber' : 'orange'} uppercase>
+          <Badge tone={espacio.score >= 85 ? 'green' : 'gray'} uppercase>
             {espacio.score}% match
           </Badge>
           {isWaiting && <Badge tone="gray" uppercase>{espacio.diasDisponible}d</Badge>}

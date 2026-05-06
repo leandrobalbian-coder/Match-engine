@@ -112,7 +112,7 @@ export function ConfirmSection({ onNext }: { onNext: () => void }) {
                   <span
                     className={cn(
                       'absolute -left-[19px] top-2.5 w-3.5 h-3.5 rounded-full border-2 border-white shadow',
-                      m.tone === 'green' ? 'bg-alert-green animate-soft-pulse' : 'bg-amber',
+                      m.tone === 'green' ? 'bg-alert-green' : 'bg-amber',
                     )}
                   />
                   <div className="flex items-baseline gap-3 text-[13px]">
@@ -258,7 +258,7 @@ export function ConfirmSection({ onNext }: { onNext: () => void }) {
         <div className="flex justify-end">
           <button
             onClick={onNext}
-            className="group inline-flex items-center gap-2 bg-amber hover:bg-amber-mid text-spot-charcoal font-bold px-5 py-3 rounded-lg shadow-amber text-[13px]"
+            className="group inline-flex items-center gap-2 bg-amber hover:bg-amber-mid text-spot-charcoal font-bold px-5 py-3 rounded-lg shadow-sm text-[13px]"
           >
             Ver resultados de negocio
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

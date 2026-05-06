@@ -59,7 +59,7 @@ export function ViewShell({
           <div className="mt-8 flex justify-end">
             <button
               onClick={cta.onClick}
-              className="group inline-flex items-center gap-2 bg-amber hover:bg-amber-mid text-spot-charcoal font-bold px-5 py-3 rounded-md shadow-amber text-[13px]"
+              className="group inline-flex items-center gap-2 bg-amber hover:bg-amber-mid text-spot-charcoal font-bold px-5 py-3 rounded-md shadow-sm text-[13px]"
             >
               {cta.label}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

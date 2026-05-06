@@ -31,11 +31,11 @@ export function FunnelChart({ steps }: { steps: readonly Step[] | Step[] }) {
               <motion.div
                 className={cn(
                   'absolute inset-y-0 left-0 rounded-md',
-                  isFinal
-                    ? 'bg-alert-green animate-soft-pulse'
-                    : i === 0
-                    ? 'bg-amber'
-                    : 'bg-amber/70',
+                  isFinal && 'bg-alert-green',
+                  !isFinal && i === 0 && 'bg-amber',
+                  !isFinal && i === 1 && 'bg-amber/70',
+                  !isFinal && i === 2 && 'bg-amber/50',
+                  !isFinal && i === 3 && 'bg-amber/30',
                 )}
                 initial={{ width: 0 }}
                 whileInView={{ width: `${pct}%` }}

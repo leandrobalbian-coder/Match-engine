@@ -2,19 +2,22 @@
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 
-type Line = { text: string; pause?: number }
+export type AgentLine = { text: string; finalSuccess?: boolean }
 
 export function AgentThinking({
   lines,
-  charDelay = 22,
-  lineDelay = 350,
-  startDelay = 300,
+  totalDurationMs = 3200,
+  startDelay = 250,
+  onComplete,
+  onProgress,
   className,
 }: {
-  lines: Line[]
-  charDelay?: number
-  lineDelay?: number
+  lines: AgentLine[]
+  /** Total duration of the typewriter animation, including pauses between lines. */
+  totalDurationMs?: number
   startDelay?: number
+  onComplete?: () => void
+  onProgress?: (lineIndex: number, totalLines: number) => void
   className?: string
 }) {
   const [displayed, setDisplayed] = useState<string[]>([])
@@ -24,6 +27,14 @@ export function AgentThinking({
     let cancelled = false
     setDisplayed([])
     setDone(false)
+
+    // Distribute total time across all characters + small pauses between lines.
+    const totalChars = lines.reduce((acc, l) => acc + l.text.length, 0)
+    // Reserve ~25% of the total for inter-line pauses; rest for typing.
+    const typingBudget = Math.max(1200, totalDurationMs * 0.78)
+    const pauseBudget = Math.max(200, totalDurationMs - typingBudget)
+    const charDelay = Math.max(8, Math.floor(typingBudget / Math.max(1, totalChars)))
+    const lineDelay = Math.floor(pauseBudget / Math.max(1, lines.length))
 
     const run = async () => {
       await wait(startDelay)
@@ -39,15 +50,20 @@ export function AgentThinking({
           await wait(charDelay)
         }
         acc.push(cur)
-        await wait((line.pause ?? lineDelay))
+        onProgress?.(i + 1, lines.length)
+        if (i < lines.length - 1) await wait(lineDelay)
       }
-      if (!cancelled) setDone(true)
+      if (!cancelled) {
+        setDone(true)
+        onComplete?.()
+      }
     }
     run()
     return () => {
       cancelled = true
     }
-  }, [lines, charDelay, lineDelay, startDelay])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lines, totalDurationMs, startDelay])
 
   return (
     <div
@@ -65,22 +81,27 @@ export function AgentThinking({
           MatchAgent · razonamiento
         </span>
       </div>
-      <div className="space-y-1 min-h-[160px]">
-        {displayed.map((line, i) => (
-          <div key={i} className="whitespace-pre-wrap break-words">
-            <span className="text-emerald-500/60 select-none mr-2">›</span>
-            {line}
-            {i === displayed.length - 1 && !done && (
-              <span className="inline-block w-2 h-4 bg-emerald-300 align-middle ml-0.5 animate-cursor-blink" />
-            )}
-          </div>
-        ))}
-        {done && (
-          <div className="pt-1">
-            <span className="text-emerald-500/60 select-none mr-2">›</span>
-            <span className="inline-block w-2 h-4 bg-emerald-300 align-middle ml-0.5 animate-cursor-blink" />
-          </div>
-        )}
+      <div className="space-y-1 min-h-[180px]">
+        {displayed.map((text, i) => {
+          const isFinalSuccess = lines[i]?.finalSuccess === true
+          return (
+            <div
+              key={i}
+              className={cn(
+                'whitespace-pre-wrap break-words',
+                isFinalSuccess && 'text-[#22C55E] font-bold',
+              )}
+            >
+              {!isFinalSuccess && (
+                <span className="text-emerald-500/60 select-none mr-2">›</span>
+              )}
+              {text}
+              {i === displayed.length - 1 && !done && (
+                <span className="inline-block w-2 h-4 bg-emerald-300 align-middle ml-0.5 animate-cursor-blink" />
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )

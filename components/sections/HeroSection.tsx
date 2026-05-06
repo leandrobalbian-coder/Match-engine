@@ -8,23 +8,16 @@ export function HeroSection({ onStart }: { onStart: () => void }) {
   return (
     <div className="relative w-full h-full hero-radial text-white overflow-hidden flex flex-col">
       {/* amber dot pattern — refuerza el brand sin robar foco */}
-      <div
-        className="absolute inset-0 opacity-[0.10]"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle, rgba(255,170,0,0.7) 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-        }}
-      />
+      <div className="absolute inset-0 hero-dots opacity-[0.08]" />
 
-      {/* drifting orbs */}
+      {/* drifting orbs (more subtle) */}
       <motion.div
-        className="absolute -top-20 -left-20 w-[420px] h-[420px] rounded-full blur-[120px] bg-amber/20"
+        className="absolute -top-20 -left-20 w-[420px] h-[420px] rounded-full blur-[120px] bg-amber/[0.12]"
         animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
         transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
-        className="absolute bottom-0 right-0 w-[520px] h-[520px] rounded-full blur-[140px] bg-amber/10"
+        className="absolute bottom-0 right-0 w-[520px] h-[520px] rounded-full blur-[140px] bg-amber/[0.06]"
         animate={{ x: [0, -40, 0], y: [0, -30, 0] }}
         transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
       />
@@ -80,8 +73,8 @@ export function HeroSection({ onStart }: { onStart: () => void }) {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="font-black text-amber leading-none tracking-tight"
           style={{
-            fontSize: 'clamp(96px, 18vw, 220px)',
-            textShadow: '0 8px 60px rgba(255,170,0,0.25)',
+            fontSize: 'clamp(120px, 22vw, 260px)',
+            textShadow: '0 8px 60px rgba(255,170,0,0.18)',
           }}
         >
           <LiveCounter from={0} to={DATA.leadsSelfServiceSinAtencion} duration={2000} delay={400} inViewOnly={false} />
@@ -111,24 +104,11 @@ export function HeroSection({ onStart }: { onStart: () => void }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.85 }}
           onClick={onStart}
-          className="mt-8 group inline-flex items-center gap-2 bg-amber text-spot-charcoal font-bold px-7 py-3.5 rounded-full text-[15px] hover:bg-amber-mid transition-colors shadow-amber animate-soft-pulse"
+          className="mt-8 group inline-flex items-center gap-2 bg-amber text-spot-charcoal font-bold px-7 py-3.5 rounded-full text-[15px] hover:bg-amber-mid hover:brightness-105 transition-all shadow-sm"
         >
           Ver la demo
           <span className="transition-transform group-hover:translate-x-1">→</span>
         </motion.button>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.2 }}
-          className="mt-12 flex items-center gap-8 text-[11px] uppercase tracking-[0.18em] text-white/40 font-bold"
-        >
-          <span>113× más rápido</span>
-          <span className="w-px h-3 bg-white/20" />
-          <span>47 segundos por lead</span>
-          <span className="w-px h-3 bg-white/20" />
-          <span>$2.7M MXN recuperados · mes 1</span>
-        </motion.div>
       </div>
 
       <motion.div

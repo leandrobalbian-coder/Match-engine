@@ -85,7 +85,7 @@ export function WhatsAppSection({ onNext }: { onNext: () => void }) {
             <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-bold text-amber-dark">
               <Sparkles className="w-3.5 h-3.5" /> MatchAgent · paso 4
             </div>
-            <h1 className="text-[24px] font-black tracking-tight text-spot-dark mt-0.5">
+            <h1 className="text-[28px] font-black tracking-tight text-spot-dark mt-0.5">
               Conversación en vivo · WhatsApp
             </h1>
           </div>
@@ -123,7 +123,7 @@ function ConversationList() {
   const items = [
     { name: 'Ana G.', sub: 'El jueves a las 11 me v…', time: '12:44', badge: { text: 'En curso', tone: 'green' as const, pulse: true }, active: true, init: 'AG', color: 'bg-amber' },
     { name: 'Logística NORTE', sub: 'Hola, necesitamos bo…', time: '12:31', badge: { text: 'Esperando', tone: 'gray' as const }, init: 'LN', color: 'bg-spot-charcoal' },
-    { name: 'Retail Express', sub: '¿Tienen algo en Roma?', time: '12:18', badge: { text: 'Nuevo', tone: 'amber' as const }, init: 'RE', color: 'bg-alert-orange' },
+    { name: 'Retail Express', sub: '¿Tienen algo en Roma?', time: '12:18', badge: { text: 'Nuevo', tone: 'gray' as const }, init: 'RE', color: 'bg-alert-orange' },
     { name: 'Pedro R.', sub: 'Confirmo visita jueves 11', time: '11:52', badge: { text: 'Agendado', tone: 'green' as const }, init: 'PR', color: 'bg-alert-green' },
     { name: 'Manufactura del Valle', sub: 'Hola, busco bodega d…', time: '10:24', badge: { text: 'En cola', tone: 'gray' as const }, init: 'MV', color: 'bg-spot-mid' },
   ]

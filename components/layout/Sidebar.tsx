@@ -69,7 +69,12 @@ export function Sidebar({
                 )}
               >
                 {isActive && (
-                  <span className="absolute left-0 top-2 bottom-2 w-[3px] rounded-r bg-amber" />
+                  <span
+                    className={cn(
+                      'absolute left-0 top-2 bottom-2 w-[3px] rounded-r',
+                      isMatchAgent ? 'bg-amber' : 'bg-white/40',
+                    )}
+                  />
                 )}
                 <Icon className="w-4 h-4 shrink-0" />
                 <span className="flex-1 truncate">{it.label}</span>
@@ -147,7 +152,7 @@ export function Sidebar({
           <div className="flex items-center gap-1.5 text-[10px] text-white/40">
             <MapPin className="w-3 h-3" /> Ciudad de México · MX
           </div>
-          <div className="text-[9px] text-white/25 mt-1">
+          <div className="text-[9px] text-white/35 mt-1">
             Leandro Balbian · Product Designer
           </div>
         </div>

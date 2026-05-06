@@ -198,7 +198,7 @@ export function ImpactSection({ onRestart }: { onRestart: () => void }) {
               href="https://github.com/leandrobalbian-coder/Match-engine"
               target="_blank"
               rel="noreferrer"
-              className="bg-amber hover:bg-amber-mid text-spot-charcoal font-bold px-4 py-2.5 rounded-md text-[13px] inline-flex items-center gap-2 shadow-amber"
+              className="bg-amber hover:bg-amber-mid text-spot-charcoal font-bold px-4 py-2.5 rounded-md text-[13px] inline-flex items-center gap-2 shadow-sm"
             >
               <Github className="w-4 h-4" />
               Ver el código
@@ -247,7 +247,7 @@ function ImpactCard({
     >
       <div className="absolute top-0 right-0 w-28 h-28 bg-alert-green/10 rounded-full blur-2xl pointer-events-none" />
       <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider font-bold text-spot-mid">
-        <Icon className="w-3.5 h-3.5 text-alert-green" />
+        <Icon className="w-3.5 h-3.5 text-spot-mid" />
         {label}
       </div>
       <div className="mt-3 flex items-baseline gap-1 font-black text-alert-green">

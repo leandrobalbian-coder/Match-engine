@@ -15,7 +15,7 @@ export function ProblemSection({ onActivate }: { onActivate: () => void }) {
         <div className="flex items-center justify-between gap-6 flex-wrap">
           <div>
             <div className="flex items-center gap-2.5">
-              <h1 className="text-[26px] font-black tracking-tight text-spot-dark">
+              <h1 className="text-[28px] font-black tracking-tight text-spot-dark">
                 MatchAgent — Centro de Operaciones
               </h1>
               <Badge tone="live" pulse>EN VIVO</Badge>
@@ -26,7 +26,7 @@ export function ProblemSection({ onActivate }: { onActivate: () => void }) {
           </div>
           <button
             onClick={onActivate}
-            className="group inline-flex items-center gap-2 bg-amber hover:bg-amber-mid text-spot-charcoal font-bold px-5 py-2.5 rounded-md shadow-amber text-[13px]"
+            className="group inline-flex items-center gap-2 bg-amber hover:bg-amber-mid text-spot-charcoal font-bold px-5 py-2.5 rounded-md shadow-sm text-[13px]"
           >
             <Sparkles className="w-4 h-4" />
             Activar MatchAgent
@@ -45,15 +45,16 @@ export function ProblemSection({ onActivate }: { onActivate: () => void }) {
             badge="⚠ Crítico"
             badgeTone="red"
             sublabel="Self-service · sin broker asignado · Origin = 1"
+            className="!bg-alert-redBg"
           />
           <MetricCard
             label="Tiempo primera respuesta"
             value={DATA.tiempoPrimeraRespuestaHrs}
             decimals={1}
             suffix="h"
-            tone="orange"
+            tone="gray"
             badge="Alto"
-            badgeTone="orange"
+            badgeTone="red"
             sublabel="Promedio · vs 5 min target del mercado"
           />
           <MetricCard
@@ -62,8 +63,6 @@ export function ProblemSection({ onActivate }: { onActivate: () => void }) {
             decimals={2}
             suffix="%"
             tone="gray"
-            badge="Crítico"
-            badgeTone="red"
             sublabel={`${DATA.leadsConVisita} / ${DATA.totalLeadsActivos.toLocaleString('es-MX')} leads activos`}
           />
         </div>
@@ -315,8 +314,8 @@ function Donut({ percentage }: { percentage: number }) {
 
 function BrokerBar() {
   const segments = [
-    { label: 'Top 4 (+10 visitas)', count: 4, color: '#FFAA00', pct: 0.072 },
-    { label: '38 brokers (1–9 visitas)', count: 38, color: '#FFBB33', pct: 0.685 },
+    { label: 'Top 4 (+10 visitas)', count: 4, color: '#1C1F2A', pct: 0.072 },
+    { label: '38 brokers (1–9 visitas)', count: 38, color: '#6E717F', pct: 0.685 },
     { label: '5,498 brokers (0 visitas)', count: 5498, color: '#E2E4EC', pct: 99.243 },
   ]
   return (

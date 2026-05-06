@@ -16,7 +16,7 @@ export function MatchSection({ onNext }: { onNext: () => void }) {
             <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-bold text-amber-dark">
               <Sparkles className="w-3.5 h-3.5" /> MatchAgent · paso 2
             </div>
-            <h1 className="text-[24px] font-black tracking-tight text-spot-dark mt-0.5">
+            <h1 className="text-[28px] font-black tracking-tight text-spot-dark mt-0.5">
               Matching en proceso · 5,554 → 3
             </h1>
           </div>
@@ -149,7 +149,7 @@ function MatchCard({
   delay: number
 }) {
   const score = espacio.score
-  const scoreTone = score >= 90 ? 'green' : score >= 85 ? 'amber' : 'orange'
+  const scoreTone: 'green' | 'gray' = score >= 85 ? 'green' : 'gray'
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -158,25 +158,25 @@ function MatchCard({
       whileHover={{ y: -3 }}
       className={cn(
         'group bg-white rounded-xl border-2 shadow-card p-4 cursor-pointer transition-all',
-        score >= 90 ? 'border-amber/30 hover:border-amber' : 'border-spot-border hover:border-amber/40',
+        score >= 90 ? 'border-spot-dark/15 hover:border-spot-dark/30' : 'border-spot-border hover:border-spot-mid/40',
       )}
     >
       <div className="flex items-start justify-between mb-3">
         <Badge tone={scoreTone} uppercase>{score}% match</Badge>
         <span className="text-[10px] uppercase tracking-wider font-bold text-spot-mid">{espacio.id}</span>
       </div>
-      <div className="aspect-[16/10] rounded-lg overflow-hidden mb-3 relative" style={{
-        background: `linear-gradient(135deg, ${score >= 90 ? '#FFAA00' : '#6E717F'}26, ${score >= 90 ? '#FFBB33' : '#434653'}40)`,
-      }}>
+      <div
+        className="aspect-[16/10] rounded-lg overflow-hidden mb-3 relative bg-gradient-to-br from-spot-bg to-spot-border"
+      >
         <div className="absolute inset-0 grid-bg opacity-50" />
         <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
-          <span className="text-[10px] font-bold uppercase tracking-wider bg-white/80 backdrop-blur px-2 py-0.5 rounded text-spot-dark">
+          <span className="text-[10px] font-bold uppercase tracking-wider bg-white/85 backdrop-blur px-2 py-0.5 rounded text-spot-dark">
             Clase {espacio.clase}
           </span>
           {espacio.disponible ? (
             <Badge tone="green" uppercase>Inmediato</Badge>
           ) : (
-            <Badge tone="amber" uppercase>{espacio.diasDisponible}d</Badge>
+            <Badge tone="gray" uppercase>{espacio.diasDisponible}d</Badge>
           )}
         </div>
       </div>

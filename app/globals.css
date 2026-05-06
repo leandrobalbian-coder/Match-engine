@@ -35,9 +35,15 @@ body {
 /* Subtle radial spotlight for hero */
 .hero-radial {
   background:
-    radial-gradient(ellipse at 50% 35%, rgba(255,170,0,0.18), transparent 55%),
-    radial-gradient(ellipse at 80% 80%, rgba(255,170,0,0.07), transparent 60%),
+    radial-gradient(ellipse at 50% 35%, rgba(255,170,0,0.14), transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(255,170,0,0.05), transparent 60%),
     #1C1F2A;
+}
+
+/* Amber dot pattern utility for dark hero / dark sections */
+.hero-dots {
+  background-image: radial-gradient(circle, rgba(255, 170, 0, 0.55) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 /* Diagonal pinstripe used in some panels */

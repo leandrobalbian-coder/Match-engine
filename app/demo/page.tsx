@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Sidebar, type SidebarView } from '@/components/layout/Sidebar'
 import { ProgressHeader } from '@/components/layout/ProgressHeader'
-import { NavDots } from '@/components/layout/NavDots'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { ProblemSection } from '@/components/sections/ProblemSection'
 import { RadarSection } from '@/components/sections/RadarSection'
@@ -116,6 +115,7 @@ export default function DemoPage() {
             current={current}
             onPrev={prev}
             onNext={next}
+            onGoto={goto}
             presentation={presentation}
             togglePresentation={togglePres}
             sidebarViewLabel={sidebarView ? prettyView(sidebarView) : null}
@@ -147,8 +147,6 @@ export default function DemoPage() {
           </button>
         )}
       </div>
-
-      {!isHero && !presentation && !sidebarView && <NavDots current={current} onSelect={goto} />}
 
       {isHero && (
         <div className="fixed bottom-5 left-1/2 -translate-x-1/2 text-white/40 text-[10px] uppercase tracking-[0.2em] font-bold pointer-events-none">
